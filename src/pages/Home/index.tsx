@@ -16,9 +16,9 @@ export function Home() {
                 <p className="inline-block text-xl sm:text-2xl font-bold text-gray-900 tracking-tight dark:text-gray-200">
                     Choose your level
                 </p>
-                <CategoryCard title="Global Knowledge" questions={10} difficulty="easy" />
+                <CategoryCard title="Global Knowledge" questions={5} difficulty="easy" />
                 <CategoryCard title="Mathematics" questions={10} difficulty="medium" />
-                <CategoryCard title="Anime" questions={10} difficulty="hard" />
+                <CategoryCard title="Anime" questions={20} difficulty="hard" />
             </div>
         </div>
     );

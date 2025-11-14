@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
-
 interface Props {
     title: string;
     questions: number;
@@ -28,18 +27,6 @@ export function CategoryCard({ title, questions, difficulty }: Props) {
         }
     }, [slug]);
 
-    const addTestResult = (score: number) => {
-        const newResult: TestResult = {
-            title,
-            score,
-            date: new Date().toLocaleDateString("pl-PL"),
-        };
-
-        const updatedResults = [newResult, ...results].slice(0, 9);
-        setResults(updatedResults);
-        localStorage.setItem(slug, JSON.stringify(updatedResults));
-    };
-
     return (
         <div>
             <div
@@ -66,9 +53,9 @@ export function CategoryCard({ title, questions, difficulty }: Props) {
                                             : difficulty === "medium"
                                             ? "text-orange-300"
                                             : "text-red-400"
-                                    }`}
+                                    } capitalize`}
                                 >
-                                    {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}
+                                    {difficulty}
                                 </span>{" "}
                                 • {questions} questions
                             </p>
@@ -78,14 +65,20 @@ export function CategoryCard({ title, questions, difficulty }: Props) {
                         <p
                             onClick={(e) => {
                                 e.stopPropagation();
-                                addTestResult(619);
+                                const slug = title.toLowerCase().replace(/\s+/g, "-");
+                                window.location.href = `/exam/${slug}`;
                             }}
                             className="transition-all duration-350 cursor-pointer text-2xl font-semibold flex items-center tracking-wider text-[#b3a4c8] hover:text-[#e4d2fc]"
                         >
                             START
                         </p>
                         {results.length > 0 && (
-                            <Icon icon="mdi:chevron-down" className="text-[#b3a4c8] w-6 h-6" />
+                            <Icon
+                                icon="mdi:chevron-down"
+                                className={`text-[#b3a4c8] w-6 h-6 transition duration-300 ${
+                                    open && "rotate-180"
+                                }`}
+                            />
                         )}
                     </div>
                 </div>

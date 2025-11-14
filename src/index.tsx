@@ -3,6 +3,7 @@ import { LocationProvider, Router, Route, hydrate, prerender as ssr } from "prea
 import { Home } from "./pages/Home/index.jsx";
 import { NotFound } from "./pages/_404.jsx";
 import "./style.css";
+import { Exam } from "./pages/Exam/index.js";
 
 export function App() {
     return (
@@ -10,6 +11,7 @@ export function App() {
             <main>
                 <Router>
                     <Route path="/" component={Home} />
+                    <Route path="/exam/:slug" component={Exam} />
                     <Route default component={NotFound} />
                 </Router>
             </main>
