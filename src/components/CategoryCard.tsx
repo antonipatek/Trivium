@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
+
 interface Props {
     title: string;
     questions: number;
@@ -19,6 +20,14 @@ export function CategoryCard({ title, questions, difficulty }: Props) {
     const [results, setResults] = useState<TestResult[]>([]);
 
     const slug = titleToSlug(title);
+
+    const Icons = {
+        "global knowledge": "mdi:globe",
+        mathematics: "mdi:calculator",
+        anime: "streamline-flex:japanese-alphabet-solid",
+        history: "mdi:books",
+        art: "mdi:art",
+    };
 
     useEffect(() => {
         const savedResults = localStorage.getItem(slug);
@@ -41,10 +50,10 @@ export function CategoryCard({ title, questions, difficulty }: Props) {
                 <div className="p-6 flex flex-row justify-between">
                     <div className="flex items-center flex-row space-x-4">
                         <div className="w-10 h-10 flex justify-center items-center bg-[#141317] rounded-xl">
-                            <Icon icon="mdi:globe" className="text-[#b3a4c8] w-5 h-5" />
+                            <Icon icon={Icons[title]} className="text-[#b3a4c8] w-5 h-5" />{" "}
                         </div>
                         <div>
-                            <p className="text-lg font-semibold text-white">{title}</p>
+                            <p className="text-lg font-medium text-white capitalize">{title}</p>
                             <p className="text-[#b3a4c8]">
                                 <span
                                     className={`${
@@ -66,7 +75,7 @@ export function CategoryCard({ title, questions, difficulty }: Props) {
                             onClick={(e) => {
                                 e.stopPropagation();
                                 const slug = title.toLowerCase().replace(/\s+/g, "-");
-                                window.location.href = `/exam/${slug}`;
+                                window.location.href = `/exam/${slug}?difficulty=${difficulty}&questions=${questions}`;
                             }}
                             className="transition-all duration-350 cursor-pointer text-2xl font-semibold flex items-center tracking-wider text-[#b3a4c8] hover:text-[#e4d2fc]"
                         >
@@ -101,7 +110,9 @@ export function CategoryCard({ title, questions, difficulty }: Props) {
                                                     {index + 1}
                                                 </span>
                                             </div>
-                                            <span className="text-white font-medium">{title}</span>
+                                            <span className="text-white font-medium capitalize">
+                                                {title}
+                                            </span>
                                         </div>
                                     </div>
                                     <div className="space-y-2">
@@ -112,10 +123,17 @@ export function CategoryCard({ title, questions, difficulty }: Props) {
                                         <div className="flex justify-between">
                                             <span className="text-[#b3a4c8]">Score</span>
                                             <span className="text-white">
-                                                <span className="font-bold tracking-wider">
-                                                    {result.score}
+                                                <span
+                                                    className={`font-bold tracking-wider ${
+                                                        result.score > 70
+                                                            ? "text-green-300"
+                                                            : result.score > 40
+                                                            ? "text-orange-300"
+                                                            : "text-red-400"
+                                                    }`}
+                                                >
+                                                    {result.score}%
                                                 </span>
-                                                /<span>100</span>
                                             </span>
                                         </div>
                                     </div>
